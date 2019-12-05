@@ -1,0 +1,52 @@
+## Dockers setup for local development dependencies
+
+version: "3"
+services:
+  db:
+    image: postgres:10.7
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    tty: true
+    container_name: postgres-db
+    volumes:
+      - mazada_data:/var/lib/postgresql/data
+    networks:
+      - net
+
+  flyway:
+    image: flyway/flyway
+    command: -url=jdbc:postgresql://db:5432/postgres -schemas=public -user=postgres -password=postgres -connectRetries=60 migrate
+    volumes: 
+     - .:/flyway/sql
+    depends_on:
+      - db
+    networks:
+      - net  
+  graphql-engine:
+    container_name: hasura-graphql
+    image: hasura/graphql-engine:v1.0.0-beta.10
+    ports:
+      - '8080:8080'
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup,http-log,query-log,websocket-log,webhook-log
+      HASURA_GRAPHQL_ACCESS_KEY: dev
+      HASURA_GRAPHQL_JWT_SECRET: '{
+                    "type":"RS256",
+                    "jwk_url": "https://cognito-idp.us-west-2.amazonaws.com/${COGNITO_ID}/.well-known/jwks.json",
+                    "claims_format": "stringified_json"
+                  }'
+    depends_on:
+      - db
+    networks:
+      - net
+volumes:
+  mazada_data:
+networks:
+  net:
+

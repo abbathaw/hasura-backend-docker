@@ -1,0 +1,821 @@
+{
+  "functions": [],
+  "remote_schemas": [],
+  "query_collections": [],
+  "allowlist": [],
+  "tables": [
+    {
+      "table": "cart_items",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": "item_id"
+          },
+          "name": "item",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          },
+          "name": "user",
+          "comment": null
+        }
+      ],
+      "array_relationships": [],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {
+              "user_id": "x-hasura-User-Id"
+            },
+            "check": {},
+            "columns": [
+              "item_id",
+              "quantity"
+            ]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": false,
+            "computed_fields": [],
+            "columns": [
+              "quantity",
+              "id",
+              "item_id",
+              "user_id"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "id",
+              "item_id",
+              "quantity",
+              "user_id"
+            ],
+            "filter": {
+              "user_id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "item_id",
+              "quantity"
+            ],
+            "filter": {
+              "user_id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "filter": {
+              "user_id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "items",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": "store_id"
+          },
+          "name": "store",
+          "comment": null
+        }
+      ],
+      "array_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "item_id",
+              "table": "cart_items"
+            }
+          },
+          "name": "cart_items",
+          "comment": null
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "check": {
+              "store": {
+                "user_stores": {
+                  "user_id": {
+                    "_eq": "X-Hasura-User-Id"
+                  }
+                }
+              }
+            },
+            "columns": [
+              "description",
+              "img",
+              "price",
+              "store_id",
+              "title"
+            ]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": false,
+            "computed_fields": [],
+            "columns": [
+              "created_at",
+              "description",
+              "id",
+              "img",
+              "price",
+              "store_id",
+              "title"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "created_at",
+              "description",
+              "id",
+              "img",
+              "price",
+              "store_id",
+              "title"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "description",
+              "img",
+              "price",
+              "title"
+            ],
+            "filter": {
+              "store": {
+                "user_stores": {
+                  "user_id": {
+                    "_eq": "X-Hasura-User-Id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "filter": {
+              "store": {
+                "user_stores": {
+                  "user_id": {
+                    "_eq": "X-Hasura-User-Id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "order_items",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": "order_id"
+          },
+          "name": "order",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": "store_id"
+          },
+          "name": "store",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          },
+          "name": "user",
+          "comment": null
+        }
+      ],
+      "array_relationships": [],
+      "insert_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "check": {},
+            "columns": [
+              "description",
+              "img",
+              "order_id",
+              "price",
+              "quantity",
+              "store_id",
+              "title",
+              "user_id"
+            ]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "description",
+              "id",
+              "img",
+              "order_id",
+              "price",
+              "quantity",
+              "status",
+              "store_id",
+              "title",
+              "user_id"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "description",
+              "id",
+              "img",
+              "order_id",
+              "price",
+              "quantity",
+              "status",
+              "store_id",
+              "title",
+              "user_id"
+            ],
+            "filter": {
+              "_or": [
+                {
+                  "user": {
+                    "id": {
+                      "_eq": "X-Hasura-User-Id"
+                    }
+                  }
+                },
+                {
+                  "store": {
+                    "user_stores": {
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "status"
+            ],
+            "filter": {
+              "store": {
+                "user_stores": {
+                  "user_id": {
+                    "_eq": "X-Hasura-User-Id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "delete_permissions": [],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "orders",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          },
+          "name": "user",
+          "comment": null
+        }
+      ],
+      "array_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "order_id",
+              "table": "order_items"
+            }
+          },
+          "name": "order_items",
+          "comment": null
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "check": {},
+            "columns": [
+              "charge",
+              "paid",
+              "total",
+              "user_id"
+            ]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": false,
+            "computed_fields": [],
+            "columns": [
+              "paid",
+              "total",
+              "charge",
+              "created_at",
+              "updated_at",
+              "id",
+              "user_id"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "charge",
+              "created_at",
+              "id",
+              "paid",
+              "total",
+              "updated_at",
+              "user_id"
+            ],
+            "filter": {
+              "user": {
+                "id": {
+                  "_eq": "X-Hasura-User-Id"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "remote",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "charge",
+              "paid"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "delete_permissions": [],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "stores",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [],
+      "array_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "store_id",
+              "table": "items"
+            }
+          },
+          "name": "items",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "store_id",
+              "table": "order_items"
+            }
+          },
+          "name": "order_items",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "store_id",
+              "table": "user_store"
+            }
+          },
+          "name": "user_stores",
+          "comment": null
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "check": {},
+            "columns": [
+              "description",
+              "name"
+            ]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": false,
+            "computed_fields": [],
+            "columns": [
+              "created_at",
+              "description",
+              "id",
+              "name"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "description",
+              "name"
+            ],
+            "filter": {
+              "user_stores": {
+                "user_id": {
+                  "_eq": "X-Hasura-User-Id"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "delete_permissions": [],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "users",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [],
+      "array_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": "cart_items"
+            }
+          },
+          "name": "cart_items",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": "order_items"
+            }
+          },
+          "name": "order_items",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": "orders"
+            }
+          },
+          "name": "orders",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": "user_store"
+            }
+          },
+          "name": "user_stores",
+          "comment": null
+        }
+      ],
+      "insert_permissions": [],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": false,
+            "computed_fields": [],
+            "columns": [
+              "created_at",
+              "id",
+              "email",
+              "name"
+            ],
+            "filter": {
+              "id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "email",
+              "name"
+            ],
+            "filter": {
+              "id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "delete_permissions": [],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "user_store",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": "store_id"
+          },
+          "name": "store",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          },
+          "name": "user",
+          "comment": null
+        }
+      ],
+      "array_relationships": [],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {
+              "user_id": "x-hasura-User-Id"
+            },
+            "check": {},
+            "columns": []
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "store_id",
+              "user_id"
+            ],
+            "filter": {
+              "user_id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "store_id",
+              "user_id"
+            ],
+            "filter": {
+              "user_id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "delete_permissions": [],
+      "event_triggers": [],
+      "computed_fields": []
+    }
+  ]
+}
